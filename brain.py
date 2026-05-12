@@ -18,7 +18,7 @@ if fb_json_str:
     fb_config = json.loads(fb_json_str)
     cred = credentials.Certificate(fb_config)
 else:
-    # Fallback for local testing on your Arch machine
+    # Fallback for local testing
     cred = credentials.Certificate("service_key.json")
 
 firebase_admin.initialize_app(cred, {'databaseURL': DB_URL})

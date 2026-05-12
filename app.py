@@ -14,15 +14,19 @@ st.set_page_config(
 
 # --- FIREBASE INIT ---
 if not firebase_admin._apps:
-    # Use Environment Variable for Cloud, fallback to local file for testing
-    fb_json_str = os.environ.get('FIREBASE_JSON')
-    db_url = os.environ.get('FIREBASE_DB_URL', 'https://decenteralizedpetterncoe454-default-rtdb.firebaseio.com/')
+    fb_json_str = st.secrets.get('FIREBASE_JSON') # Streamlit prefers st.secrets
+    db_url = st.secrets.get('FIREBASE_DB_URL')
     
     if fb_json_str:
-        fb_config = json.loads(fb_json_str)
+        # Check if it's already a dict or needs loading
+        if isinstance(fb_json_str, str):
+            fb_config = json.loads(fb_json_str)
+        else:
+            fb_config = dict(fb_json_str)
+            
         cred = credentials.Certificate(fb_config)
     else:
-        # If this file doesn't exist on Arch, it will error out—this is correct!
+        # Local fallback - ONLY for your Arch machine
         cred = credentials.Certificate("service_key.json")
         
     firebase_admin.initialize_app(cred, {'databaseURL': db_url})

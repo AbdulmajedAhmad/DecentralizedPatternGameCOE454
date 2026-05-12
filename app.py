@@ -90,23 +90,26 @@ with m3:
 st.write("---")
 
 # Row 2: Sequence Pattern
-if data["sequence"]:
-    st.write("### 📡 Live Sequence Pattern")
-    spike_cols = st.columns(len(data["sequence"]))
-    
-    for i, btn in enumerate(data["sequence"]):
-        with spike_cols[i]:
-            color = "#00D1FF" if btn == "B1" else "#FFD700"
-            label = "B1" if btn == "B1" else "B2"
-            
-            st.markdown(f"""
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
-                    <div style="width: 12px; height: 60px; background-color: {color}; border-radius: 10px; box-shadow: 0 0 15px {color};"></div>
-                    <span style="color: {color}; font-weight: bold; font-family: monospace;">{label}</span>
-                </div>
-            """, unsafe_allow_html=True)
-else:
-    st.info("📡 System Idle. Awaiting first input from Player 1...")
+try:
+    if data["sequence"]:
+        st.write("### 📡 Live Sequence Pattern")
+        spike_cols = st.columns(len(data["sequence"]))
+        
+        for i, btn in enumerate(data["sequence"]):
+            with spike_cols[i]:
+                color = "#00D1FF" if btn == "B1" else "#FFD700"
+                label = "B1" if btn == "B1" else "B2"
+                
+                st.markdown(f"""
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;">
+                        <div style="width: 12px; height: 60px; background-color: {color}; border-radius: 10px; box-shadow: 0 0 15px {color};"></div>
+                        <span style="color: {color}; font-weight: bold; font-family: monospace;">{label}</span>
+                    </div>
+                """, unsafe_allow_html=True)
+    else:
+        st.info("📡 System Idle. Awaiting first input from Player 1...")
+except KeyError:
+    st.write("### Game has not started yet!")
 
 st.markdown("---")
 st.caption(f"By: Abdulmajeed Nazih Ahmad • Cloud Sync Active • KFUPM: COE454 Project")

@@ -8,7 +8,7 @@ import os
 # --- CLOUD CONFIG ---
 # "Environment Variables" for Render.com
 UNIQUE_ID = os.environ.get('UNIQUE_ID')
-DB_URL = os.environ.get('FIREBASE_DB_URL', 'https://decenteralizedpetterncoe454-default-rtdb.firebaseio.com/')
+DB_URL = os.environ.get('FIREBASE_DB_URL')
 
 # Securely load the Firebase JSON from the environment variable
 fb_json_str = os.environ.get('FIREBASE_JSON')

@@ -79,13 +79,16 @@ with m2:
     st.metric(label="ACTIVE PLAYER", value=p_name)
 
 with m3:
-    if not data["sequence"]:
-        status_text = "IDLE"
-    elif data["index"] < len(data["sequence"]):
-        status_text = "REPEATING..."
-    else:
-        status_text = "ADDING NEW!"
-    st.metric(label="GAME STATUS", value=status_text)
+    try:
+        if not data["sequence"]:
+            status_text = "IDLE"
+        elif data["index"] < len(data["sequence"]):
+            status_text = "REPEATING..."
+        else:
+            status_text = "ADDING NEW!"
+        st.metric(label="GAME STATUS", value=status_text)
+    except KeyError:
+        st.write("### Game has not started yet!")
 
 st.write("---")
 

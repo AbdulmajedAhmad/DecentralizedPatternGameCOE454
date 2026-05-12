@@ -7,7 +7,7 @@ import os
 
 # --- CLOUD CONFIG ---
 # "Environment Variables" for Render.com
-UNIQUE_ID = os.environ.get('UNIQUE_ID', '202182570')
+UNIQUE_ID = os.environ.get('UNIQUE_ID')
 DB_URL = os.environ.get('FIREBASE_DB_URL', 'https://decenteralizedpetterncoe454-default-rtdb.firebaseio.com/')
 
 # Securely load the Firebase JSON from the environment variable
@@ -25,7 +25,7 @@ firebase_admin.initialize_app(cred, {'databaseURL': DB_URL})
 db_ref = db.reference('game_state')
 
 # --- MQTT CONFIG ---
-TOPIC_BASE = f"kfupm/202182570/game"
+TOPIC_BASE = f"kfupm/{UNIQUE_ID}/game"
 TOPIC_INPUT = f"{TOPIC_BASE}/input"
 
 state = {

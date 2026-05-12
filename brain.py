@@ -63,8 +63,8 @@ def on_message(client, userdata, msg):
                 state["index"] += 1
             else:
                 # FAIL
-                client.publish(f"{TOPIC_BASE}/p1", "WRONG")
-                client.publish(f"{TOPIC_BASE}/p2", "WRONG")
+                client.publish(f"{TOPIC_BASE}/p1", "WRONG", qos=1)
+                client.publish(f"{TOPIC_BASE}/p2", "WRONG", qos=1)
                 state = {"sequence": [], "current_player": "p1", "index": 0, "score": 0}
                 #save_and_publish(client)
                 save_to_cloud()
@@ -76,7 +76,7 @@ def on_message(client, userdata, msg):
             state["score"] += 1
             
             # Inform current player they were successful
-            client.publish(f"{TOPIC_BASE}/{sender}", "CORRECT")
+            client.publish(f"{TOPIC_BASE}/{sender}", "CORRECT", qos=1)
             
             # Switch turn
             state["current_player"] = "p2" if sender == "p1" else "p1"
@@ -87,7 +87,7 @@ def on_message(client, userdata, msg):
             # 3. Trigger Light Spikes for the NEXT player
             time.sleep(0.5) 
             target_topic = f"{TOPIC_BASE}/{state['current_player']}/sequence"
-            client.publish(target_topic, json.dumps(state["sequence"]))
+            client.publish(target_topic, json.dumps(state["sequence"]), qos=1)
 
     except Exception as e:
         print(f"Error: {e}")
@@ -95,13 +95,13 @@ def on_message(client, userdata, msg):
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print(f"✅ Connected to Broker! Subscribing to: {TOPIC_INPUT}")
-        client.subscribe(TOPIC_INPUT)
+        client.subscribe(TOPIC_INPUT, qos=1)
     else:
         print(f"❌ Failed to connect, return code {rc}")
 
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
-client.connect("broker.hivemq.com", 1883, 180)
+client.connect("broker.hivemq.com", 1883, 330)
 save_to_cloud() # Initial state sync
 client.loop_forever()

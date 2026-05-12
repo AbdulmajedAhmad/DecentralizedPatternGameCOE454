@@ -50,7 +50,7 @@ def on_message(client, userdata, msg):
     payload = msg.payload.decode()
     
     try:
-        # Expecting "p1:B1" or "p2:B2"
+        # Expecting pattern of: "pX:BX"
         sender, button = payload.split(":")
         sender = sender.lower() # Ensure it matches p1/p2
         

@@ -1,0 +1,4 @@
+paho-mqtt
+streamlit
+firebase-admin
+streamlit-autorefresh
